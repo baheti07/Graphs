@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+void findtopo(int node,vector<int>&vis,stack<int>&st,vector<int>adj[])
+{
+    vis[node]=1;
+    for(auto it:adj[node])
+    {
+        if(!vis[it])
+        {
+            findtopo(it,vis,st,adj);
+        }
+    }
+    st.push(node);
+}
+vector<int>toposort(int n,vector<int>adj[])
+{
+    stack<int>st;
+    vector<int>vis(n,0);
+    for(int i=0;i<n;i++)
+    {
+        if(vis[i]==0)
+          findtopo(i,vis,st,adj);
+    }
+    vector<int>topo;
+    while(!st.empty())
+    {
+        topo.push_back(st.top());
+        st.pop();
+    }
+    return topo;
+}
+int main() {
+
+  int N = 6;
+
+  vector < int > adj[5 + 1];
+
+  adj[5].push_back(2);
+  adj[5].push_back(0);
+  adj[4].push_back(0);
+  adj[4].push_back(1);
+  adj[2].push_back(3);
+  adj[3].push_back(1);
+
+  
+  vector < int > res = toposort(6, adj);
+
+  cout << "Toposort of the given graph is:" << endl;
+  for (int i = 0; i < res.size(); i++) {
+    cout << res[i] << " ";
+  }
+
+  return 0;
+} 
